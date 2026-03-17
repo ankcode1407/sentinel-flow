@@ -1,0 +1,25 @@
+services:
+  sentinel_gateway:
+    build: ./gateway
+    ports:
+      - "8000:8000"
+    networks:
+      - mlops_net
+
+  forensic_proxy:
+    build: ./forensic_proxy
+    ports:
+      - "8001:8000"
+    networks:
+      - mlops_net
+
+  traffic_gen:
+    build: ./traffic_gen
+    depends_on:
+      - sentinel_gateway
+    networks:
+      - mlops_net
+
+networks:
+  mlops_net:
+    driver: bridge
